@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>PDF VIEWER — XUHANGCHENG®</title>
+<link rel="stylesheet" href="../assets/css/main.css">
+<style>
+  .pdfv { position: fixed; inset: 0; display: flex; flex-direction: column; background: #e9e9e9; }
+  .pdfv__bar {
+    flex: 0 0 auto; height: 64px; display: flex; align-items: center;
+    justify-content: space-between; padding: 0 24px;
+    background: #fff; border-bottom: 1px solid #eee;
+  }
+  .pdfv__brand { font-size: 13px; font-weight: 700; letter-spacing: .06em; color: #111; }
+  .pdfv__right { display: flex; align-items: center; gap: 18px; }
+  .pdfv__name {
+    font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: .08em;
+    color: #999; text-transform: uppercase;
+  }
+  .pdfv__dl {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: .08em;
+    color: #111; text-decoration: none; border: 1px solid #111; padding: 8px 14px;
+    transition: background .2s ease, color .2s ease;
+  }
+  .pdfv__dl:hover { background: #111; color: #fff; }
+  .pdfv__body { flex: 1 1 auto; position: relative; background: #e9e9e9; }
+  .pdfv__body iframe { width: 100%; height: 100%; border: 0; display: block; }
+  .pdfv__hint {
+    position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+    text-align: center; color: #666; font-size: 13px; line-height: 1.9; padding: 0 24px;
+  }
+  .pdfv__hint b { color: #111; }
+  @media (max-width: 799px) {
+    .pdfv__bar { height: 56px; padding: 0 16px; }
+    .pdfv__name { display: none; }
+    .pdfv__dl { padding: 7px 10px; }
+  }
+</style>
+</head>
+<body>
+<div class="pdfv">
+  <div class="pdfv__bar">
+    <a class="pdfv__brand" href="../index.html" style="text-decoration:none;">XUHANGCHENG®</a>
+    <div class="pdfv__right">
+      <span class="pdfv__name" id="pvName">PORTFOLIO PDF</span>
+      <a class="pdfv__dl" id="pvDl" href="portfolio.pdf" download>DOWNLOAD ↓</a>
+    </div>
+  </div>
+  <div class="pdfv__body">
+    <iframe id="pvFrame" src="about:blank" title="PDF"></iframe>
+    <p class="pdfv__hint" id="pvHint" style="display:none;">
+      手机上无法内嵌预览，请点右上角 <b>DOWNLOAD</b> 下载后用阅读器打开。
+    </p>
+  </div>
+</div>
+<script>
+  // 要展示的文件名：把 PDF 传到本目录，改成同名即可
+  var DEFAULT_FILE = 'portfolio.pdf';
+  var qs = new URLSearchParams(location.search).get('f');
+  var file = (qs && /^[A-Za-z0-9._-]+$/.test(qs)) ? qs : DEFAULT_FILE;
+  var frame = document.getElementById('pvFrame');
+  frame.src = file;
+  document.getElementById('pvDl').setAttribute('href', file);
+  document.getElementById('pvName').textContent = file.replace(/\.pdf$/i, '').toUpperCase();
+  // 手机端多数浏览器不支持内嵌 PDF，给出提示
+  if (window.matchMedia('(max-width: 799px)').matches) {
+    document.getElementById('pvHint').style.display = 'block';
+  }
+</script>
+</body>
+</html>
